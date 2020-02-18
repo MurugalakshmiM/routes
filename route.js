@@ -19,7 +19,7 @@ let airPortsRoutes =[
     ["SFO", "DSM"], 
     ["SAN", "EYW"],
      ]
-let startingNode ='LGA'
+let startingNode ='TLV'
 let airPorts = [ 
     "BGI", "CDG", "DEL", "DOH", "DSM", "EWR", "EYW", "HND", "ICN", "JFK", "LGA", "LHR", "ORD", "SAN", "SFO", "SIN", "TLV", "BUD", 
     ];
@@ -54,9 +54,8 @@ function findConnection(){
 
     // iteration to find the new connection required to add 
     let flag =0;
-    while(flag == 0) {
-        max = Math.max(...degree)
-        if(max >0) {
+    while(flag == 0 && Math.max(...degree) > 0 ) {
+            max = Math.max(...degree);
             indexOFMaxDegree = degree.indexOf(max)
             if(!path[airPorts.indexOf(startingNode)].includes(indexOFMaxDegree) && degree[airPorts.indexOf(startingNode)] <= 17 ) {
                 airPortsRoutes.push([startingNode,airPorts[indexOFMaxDegree]])
@@ -64,16 +63,9 @@ function findConnection(){
                 console.log([startingNode,airPorts[indexOFMaxDegree]])
                 findConnection()
                 flag++;
-            } else if (path[airPorts.indexOf(startingNode)].includes(indexOFMaxDegree) && indexOFMaxDegree == degree.lastIndexOf(max)){
-                while(degree.indexOf(max) != -1) {
-                    degree = degree.map((element)=> (element != max) ? element : 0);
-                }
-            } else if(indexOFMaxDegree < degree.lastIndexOf(max)){
+            } else {
                 degree = degree.map((element, index)=> (element == max && index <= indexOFMaxDegree ) ? 0 :element)
             }
-        } else {
-            flag++;
-        }
     }
 }
 
