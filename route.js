@@ -66,23 +66,10 @@ function findConnection(){
                 flag++;
             } else if (path[airPorts.indexOf(startingNode)].includes(indexOFMaxDegree) && indexOFMaxDegree == degree.lastIndexOf(max)){
                 while(degree.indexOf(max) != -1) {
-                    degree = degree.map((element)=> {
-                        if(element != max) {
-                            return element;
-                        } else {
-                            return 0;
-                        }
-                    })
+                    degree = degree.map((element)=> (element != max) ? element : 0);
                 }
             } else if(indexOFMaxDegree < degree.lastIndexOf(max)){
-                degree = degree.map((element, index)=> {
-                    if(element == max && index <= indexOFMaxDegree ){
-                        return 0;
-                    } else {
-                        return element;
-                    }
-                })
-        
+                degree = degree.map((element, index)=> (element == max && index <= indexOFMaxDegree ) ? 0 :element)
             }
         } else {
             flag++;
@@ -91,11 +78,11 @@ function findConnection(){
 }
 
 // function to find number of connections per node.
-function findNumberConnections(item, visitedNodesArray) {
+function findNumberConnections(adjacencyRow, visitedNodesArray) {
     let  childCount=0;
     let degreeOFChildNodes=0
-    item.map((element,index) => {
-        if(item[index] == 1 && !visitedNodesArray.includes(index)){
+    adjacencyRow.map((element,index) => {
+        if(adjacencyRow[index] == 1 && !visitedNodesArray.includes(index)){
             visitedNodesArray.push(index)
             childCount++;
             degreeOFChildNodes += findNumberConnections(adjacencyMatrix[index],visitedNodesArray)
