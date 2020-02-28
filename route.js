@@ -12,6 +12,11 @@ let adjacencyMatrix = [],
     numberOfConnection = 0;
 
 console.log('new routes')
+  // formation of adjacencyMatrix for given routes
+
+  airPorts.map((item) => {
+    adjacencyMatrix.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+})
 findConnection()
 console.log("number of connection", numberOfConnection)
 
@@ -21,11 +26,6 @@ function findConnection() {
     let path = [], degree = [];
 
 
-    // formation of adjacencyMatrix for given routes
-
-    airPorts.map((item) => {
-        adjacencyMatrix.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    })
     airPortsRoutes.map((item, index) => {
         let row = airPorts.indexOf(item[0]),
             column = airPorts.indexOf(item[1]);
@@ -45,7 +45,7 @@ function findConnection() {
     // iteration to find the new connection required to add 
 
     let flag = 0;
-    while (flag == 0 && Math.max(...degree) > 0) {
+    while (flag == 0 && Math.max(...degree) > -1) {
         max = Math.max(...degree);
         indexOFMaxDegree = degree.indexOf(max)
         if (!path[airPorts.indexOf(startingNode)].includes(indexOFMaxDegree) && degree[airPorts.indexOf(startingNode)] <= 17) {
@@ -55,7 +55,7 @@ function findConnection() {
             findConnection()
             flag++;
         } else {
-            degree = degree.map((element, index) => (element == max && index <= indexOFMaxDegree) ? 0 : element)
+            degree = degree.map((element, index) => (element == max && index <= indexOFMaxDegree) ? -1 : element)
         }
     }
 }
